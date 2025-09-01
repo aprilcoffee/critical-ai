@@ -1,0 +1,27 @@
+# Core dependencies for LLaVA
+torch>=2.1.0
+torchvision>=0.16.0
+transformers>=4.54.0
+accelerate>=1.9.0
+timm>=1.0.19
+tokenizers>=0.21.0
+
+# Image processing
+pillow>=10.4.0
+
+# HTTP requests for downloading images
+requests>=2.32.0
+
+# Hugging Face Hub
+huggingface-hub>=0.34.0
+
+# Utilities
+numpy>=1.26.0
+tqdm>=4.67.0
+safetensors>=0.5.0
+
+# Optional: For quantization (if needed)
+# bitsandbytes>=0.41.0
+
+# Optional: For Flash Attention (if needed)
+# flash-attn>=2.0.0
