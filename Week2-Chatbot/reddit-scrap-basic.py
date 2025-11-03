@@ -1,5 +1,7 @@
 import praw
 
+# https://www.reddit.com/prefs/apps
+
 # Initialize Reddit instance
 reddit = praw.Reddit(
     client_id="ID",
