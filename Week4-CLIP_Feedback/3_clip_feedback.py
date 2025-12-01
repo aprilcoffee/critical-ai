@@ -14,6 +14,7 @@ os.makedirs('./outputimage', exist_ok=True)
 
 happiness = 0.0
 sadness = 100.0
+
 i = 0
 while True:
     i=i+1
@@ -21,17 +22,19 @@ while True:
     """
     https://www.placecage.com/512/512
 
-https://placekitten.com/512/512
+    https://placekitten.com/512/512
 
-https://picsum.photos/512/512
+    https://picsum.photos/512/512
 
-https://thiscatdoesnotexist.com/
+    https://thiscatdoesnotexist.com/
+
+    https://thispersondoesnotexist.com/
     """
 
-    url = 'https://thispersondoesnotexist.com/'
+    url = 'https://picsum.photos/512/512'
     img = Image.open(requests.get(url, stream=True).raw).convert("RGB")
 
-    inputs = processor(text=["happy"], images=img, return_tensors="pt", padding=True)
+    inputs = processor(text=["Beautiful beach with sunsets and a clear blue sky"], images=img, return_tensors="pt", padding=True)
 
     outputs = model(**inputs)
     logits_per_image = outputs.logits_per_image  # this is the image-text similarity score

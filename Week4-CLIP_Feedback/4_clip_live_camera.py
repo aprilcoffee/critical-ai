@@ -6,9 +6,21 @@ import torch
 model = CLIPModel.from_pretrained("openai/clip-vit-base-patch32")
 processor = CLIPProcessor.from_pretrained("openai/clip-vit-base-patch32")
 
-texts = ["a person", "a cat", "a dog", "a phone", "a book", "a cup"]
+texts = [   "Smoked Salmon",
+    "schnitzel",
+    "Jollof rice",
+    "tajine",
+    "Macaroni and cheese",
+    "Curry Wurst",
+    "Pizza",
+    "Nasi Lemak",
+    "Sauce Mole",
+    "Fried Rice",
+    "Katsudon",
+    "Crepe",
+    "kimchi",]
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(1)
 
 print("Press 'q' to quit")
 
@@ -33,8 +45,14 @@ while True:
     best_prob = probs[best_idx].item()
     
     # Display on frame
-    cv2.putText(frame, f"{best_text}: {best_prob:.2f}", (10, 30),
-                cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+    # Sort scores and display all ranked results on the frame
+    sorted_indices = probs.argsort(descending=True)
+    for rank, idx in enumerate(sorted_indices):
+        text = texts[idx]
+        prob = probs[idx].item()
+        y = 30 + rank * 35
+        cv2.putText(frame, f"{rank+1}. {text}: {prob:.2f}", (10, y),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
     
     cv2.imshow('CLIP Live Camera', frame)
     

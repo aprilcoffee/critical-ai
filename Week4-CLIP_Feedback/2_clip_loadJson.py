@@ -14,7 +14,6 @@ for item in data:
     countries.append(item['name'])
 
 
-
 while True:
         
     url = 'https://thispersondoesnotexist.com/'
@@ -25,10 +24,8 @@ while True:
     logits_per_image = outputs.logits_per_image  # this is the image-text similarity score
     probs = logits_per_image.softmax(dim=1)  # we can take the softmax to get the label probabilities
 
-
     # Get the index of the emotional keyword with the highest probability
     index_of_highest_prob = probs.argmax().item()
-
     # Get the emotional keyword with the highest probability
     highest_prob_emotion = countries[index_of_highest_prob]
 
@@ -37,8 +34,4 @@ while True:
 
     print(f"Highest probability emotion: {highest_prob_emotion}\tProbability: {highest_prob:.2f}")
 
-
-    #print(f"{i}\tscore: {now:.2f}")
-    #for j, emotion in enumerate(countries):
-        #prob_emotion = probs[0, j].item()
-        #print(f"\tEmotion: {emotion}\tProbability: {prob_emotion:.2f}")
+    img.save(f'./this.jpg')
