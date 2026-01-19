@@ -1,0 +1,21 @@
+# Core ML libraries
+torch>=2.1.0
+transformers>=4.54.0
+
+# Image processing
+pillow>=10.4.0
+requests>=2.32.0
+
+# Numerical computing
+numpy>=1.26.0
+
+# Visualization
+matplotlib>=3.8.0
+plotly>=5.18.0
+
+# Embedding and dimensionality reduction
+umap-learn>=0.5.7
+scikit-learn>=1.4.0
+
+# Word embeddings
+gensim>=4.3.0
