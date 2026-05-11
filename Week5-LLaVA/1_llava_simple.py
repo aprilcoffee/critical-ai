@@ -1,14 +1,26 @@
-from ollama import generate
+# LLaVA & Python
+# Send a local image to LLaVA and print its description.
+#
+# Install:  pip install ollama
+# Pull:     ollama pull llava
 
-# Change this to your image absolute path
-image_path = r"/Users/tcliu/Documents/GitHub/critical-ai/Week5-LLaVA/myface_2.JPG"
-image_path = r"https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimages.hindustantimes.com%2Fimg%2F2021%2F12%2F26%2F1600x900%2F2019-12-26T043808Z_1_LYNXMPEFBP044_RTROPTP_4_INDIANOCEAN-TSUNAMI-FILE-1920x1284_1640479059650_1640479137048.jpg"
+from pathlib import Path
+import ollama
 
-prompt = input("Enter your question about the image: ")
+# Anchor to this script's folder, not where you run python from.
+HERE = Path(__file__).parent
+image_path = HERE / "images" / "image.jpeg"
 
-result = generate(
-    model='llava',
-    prompt= f'{prompt} {image_path}'
+# Read the file as bytes. No path guessing, no surprises.
+data = image_path.read_bytes()
+
+response = ollama.chat(
+    model="llava", #gemma3:4b"
+    messages=[{
+        "role": "user",
+        "content": "Describe this image in detail.",
+        "images": [data],
+    }],
 )
 
-print(result.response)
+print(response["message"]["content"])
