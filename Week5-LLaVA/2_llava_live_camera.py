@@ -1,9 +1,17 @@
 import cv2
 import threading
 from ollama import chat
+import os
+import time
+
+def speak(text):
+    """
+    Use macOS 'say' command to speak the given text aloud.
+    """
+    os.system(f'say "{text}"')
 
 # === EDIT THIS ===
-question = "What do you see in this image?"
+question = "You are a comedian. Directly Roast this person in ONE SINGLE sentences, no list, and no extra commentary."
 
 # === CAMERA (cross-platform) ===
 cap = cv2.VideoCapture(0)
@@ -33,7 +41,7 @@ def ask():
             if not ok:
                 return
             result = chat(
-                model='llava',
+                model='gemma3:4b',
                 messages=[{
                     'role': 'user',
                     'content': question,
@@ -42,6 +50,7 @@ def ask():
             )
             response_text = result['message']['content']
             print(f"\n[Q] {question}\n[A] {response_text}\n")
+            speak(response_text)
         finally:
             processing = False
 
@@ -76,7 +85,10 @@ def draw_text(frame, text, top=True):
 
 # === MAIN LOOP ===
 print(f"Question: {question}")
-print("SPACE to ask, q to quit.")
+print("Generating every 10 seconds, press q to quit.")
+
+last_ask_time = 0
+interval = 10  # seconds
 
 while True:
     ret, frame = cap.read()
@@ -84,7 +96,13 @@ while True:
         break
     current_frame = frame.copy()
 
-    status = "Processing..." if processing else "SPACE = ask  |  q = quit"
+    # Every interval seconds, issue a new ask() if not processing
+    now = time.time()
+    if now - last_ask_time >= interval and not processing:
+        ask()
+        last_ask_time = now
+
+    status = "Processing..." if processing else f"Auto-generating every {interval} seconds | q = quit"
     draw_text(frame, status, top=True)
     if response_text:
         draw_text(frame, response_text, top=False)
@@ -94,8 +112,7 @@ while True:
     key = cv2.waitKey(1) & 0xFF
     if key == ord('q'):
         break
-    if key == ord(' '):
-        ask()
+    # No action on space anymore
 
 cap.release()
 cv2.destroyAllWindows()
