@@ -81,14 +81,20 @@ Pick the command that matches your CUDA version from `nvidia-smi`:
 
 | CUDA Version | Install command |
 |---|---|
+| 13.1 | ⚠️ No wheel yet — use `cu130` below (see note) |
+| 13.0 | `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu130` |
+| 12.8 | `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu128` |
+| 12.6 | `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu126` |
 | 12.4 | `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu124` |
 | 12.1 | `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121` |
 | 11.8 | `pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118` |
 | No GPU / CPU only | `pip install torch torchvision` |
 
-> **Not sure?** CUDA 12.1 (`cu121`) works for most setups from 2023 onward.
-> The CUDA version shown by `nvidia-smi` is the **maximum** your driver supports —
-> installing a torch build for a lower CUDA version is fine.
+> **CUDA 13.1 (RTX 50-series)** — PyTorch does not yet publish a `cu131` wheel.
+> Use `cu130` instead; it is forward-compatible and works on 13.x drivers.
+>
+> **Not sure?** The CUDA version in `nvidia-smi` is the **maximum** your driver supports.
+> Installing a torch build for a lower CUDA version is always fine.
 
 After installing torch, verify CUDA is detected:
 
